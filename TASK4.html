@@ -1,0 +1,430 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>E-Learning Platform</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f4f4f4; /* basic light gray */
+      --muted:#222831; /* basic dark gray */
+      --accent:#2196f3; /* basic blue */
+      --accent-2:#1976d2; /* deeper blue */
+      --card:#fff;
+      --shadow:0 6px 28px rgba(33,150,243,0.09);
+      --radius:12px;
+      --sans:"Inter",system-ui,sans-serif;
+      --footer-bg:#e3f2fd;
+    }
+    *{box-sizing:border-box}
+    html, body { height: 100%; margin: 0; padding: 0; }
+    body{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      font-family:var(--sans);
+      background:var(--bg);
+      color:#222831;
+    }
+    header{
+      background:var(--accent-2);
+      box-shadow:var(--shadow);
+      padding:20px 0 14px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom:5px solid var(--accent);
+    }
+    .header-title {
+      margin: 0 0 0 24px;
+      font-size:1.25rem;
+      font-weight:700;
+      color:#fff;
+      letter-spacing:1.2px;
+      text-align:left;
+      flex: 1;
+    }
+    nav {
+      margin-right: 26px;
+      display: flex;
+      gap: 8px;
+    }
+    nav a{
+      text-decoration:none;
+      color:#e3f2fd;
+      font-weight:600;
+      font-size:1.01rem;
+      padding:8px 14px;
+      border-radius:7px;
+      transition:color 0.2s, background 0.2s;
+      text-align:right;
+      display:inline-block;
+    }
+    nav a.active,nav a:hover{color:var(--accent);background:rgba(255,255,255,0.12);}
+    #main-content {
+      flex: 1 0 auto;
+      padding:24px;
+      max-width:1100px;
+      margin:auto;
+      min-height:0;
+      position:relative;
+      box-sizing: border-box;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .hidden{display:none}
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 62vh;
+      background: transparent;
+      margin-bottom: 36px;
+      margin-top: 12px;
+    }
+    .hero-card {
+      background: var(--card);
+      box-shadow: var(--shadow);
+      border-radius: 12px;
+      padding: 40px 32px 32px 32px;
+      width: 100%;
+      max-width: 520px;
+      min-width: 320px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      margin: 0 auto;
+      border: 1.5px solid #bbdefb;
+    }
+    .hero-card h2{
+      font-size:2rem;
+      font-weight:800;
+      margin-bottom:14px;
+      color:var(--accent-2);
+      letter-spacing:0.5px;
+      text-align:left;
+    }
+    .hero-card p{
+      color:var(--accent);
+      margin-bottom:22px;
+      font-size:1.14rem;
+      font-weight:600;
+      text-align:left;
+    }
+    .inspire{
+      margin-bottom:12px;
+      margin-top:2px;
+      color:var(--muted);
+      font-size:1.04rem;
+      font-style:italic;
+      line-height:1.5;
+      letter-spacing:0.1px;
+      font-weight:500;
+      text-align:left;
+    }
+    .btn{
+      display:inline-block;
+      margin:8px 0;
+      padding:12px 28px;
+      border-radius:var(--radius);
+      font-weight:600;
+      text-decoration:none;
+      cursor:pointer;
+      transition:0.2s;
+      background:linear-gradient(90deg,var(--accent-2),var(--accent));color:#fff;
+      font-size:1.08rem;
+      border:none;
+      box-shadow:0 2px 8px rgba(33,150,243,0.15);
+    }
+    .btn:hover{opacity:0.93;}
+    .btn.ghost{background:#fff;border:1px solid #90caf9;color:var(--accent-2)}
+    .btn.ghost:hover{background:#e3f2fd}
+    .grid{display:grid;gap:16px}
+    .grid-3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .card{
+      background:var(--card);
+      padding:18px 16px;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      transition:transform 0.22s;
+      min-height:220px;
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      border:1.5px solid #bbdefb;
+    }
+    .card:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 12px 28px rgba(33,150,243,0.13);}
+    .course-thumb{width:100%;height:140px;object-fit:cover;border-radius:13px;background:#e3f2fd;}
+    .title{font-weight:700;margin-top:12px;font-size:1.17rem;color:var(--accent-2);}
+    .small{font-size:13px;color:var(--muted);margin-bottom:8px;}
+    .progress-outer{height:8px;background:#e3f2fd;border-radius:999px;overflow:hidden;margin-top:6px}
+    .progress-inner{height:100%;background:linear-gradient(90deg,var(--accent-2),var(--accent))}
+    .lesson{display:flex;align-items:center;gap:10px;padding:8px;border:1px solid #e3f2fd;
+      border-radius:10px;margin-bottom:8px;background:#f4f4f4;}
+    .checkbox{width:22px;height:22px;border-radius:6px;border:1px solid #457b9d;
+      display:flex;align-items:center;justify-content:center;cursor:pointer}
+    .checkbox.done{background:linear-gradient(90deg,var(--accent-2),var(--accent));color:#fff;border:0}
+    .video-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+    .video-box {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56%;
+      height: 0;
+      background: #e3f2fd;
+      border-radius: 10px;
+      box-shadow: 0 2px 14px rgba(33,150,243,0.09);
+    }
+    .video-box iframe {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      border-radius: 10px;
+      border: none;
+    }
+    footer{
+      flex-shrink:0;
+      width:100%;
+      text-align:center;
+      padding:24px 0;
+      color:var(--accent-2);
+      background:var(--footer-bg);
+      font-size:1.13rem;
+      letter-spacing:0.8px;
+      font-weight:700;
+      border-top:2px solid #bbdefb;
+      position:fixed;
+      left:0;
+      bottom:0;
+      z-index:3;
+    }
+    .search-bar{margin:14px 0;display:flex;gap:12px;flex-wrap:wrap}
+    .search-bar select,.search-bar input{padding:8px;border-radius:var(--radius);border:1px solid #b6c2d6;background:#f4f4f4;}
+    .search-bar input{flex:2;min-width:180px;}
+    .search-bar select{flex:1}
+    @media (max-width:1200px){
+      .video-row { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width:800px){
+      .video-row { grid-template-columns: 1fr; }
+      .video-box { width: 98vw; max-width: 430px; }
+    }
+    @media (max-width:700px) {
+      .header-title{font-size:1.05rem;}
+      nav{margin-right: 10px;}
+      .hero-card{max-width:97vw;padding:20px 8px;}
+      .hero{min-height:40vh;}
+      .hero-card h2{font-size:1.3rem;}
+      .btn{font-size:1rem;}
+      footer{font-size:1rem;}
+    }
+    .dashboard-link{color:var(--accent-2);text-decoration:underline;cursor:pointer;font-size:13px;}
+    .dashboard-link:hover{text-decoration:none;}
+    .dashboard-card{margin-bottom:10px;}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-title">E-Learning Platform</div>
+    <nav>
+      <a href="#" onclick="navigate('home')" id="nav-home">Home</a>
+      <a href="#" onclick="navigate('courses')" id="nav-courses">Courses</a>
+      <a href="#" onclick="navigate('dashboard')" id="nav-dashboard">Dashboard</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <!-- HOME -->
+    <section id="home-page">
+      <div class="hero">
+        <div class="hero-card">
+          <h2>Learn faster Build projects</h2>
+          <div class="inspire">
+            "Education is the passport to the future,<br>
+            for tomorrow belongs to those who prepare for it today."
+          </div>
+          <p>Short lessons, real projects and progress tracking to keep you moving.</p>
+        </div>
+      </div>
+    </section>
+    <section id="courses-page" class="hidden">
+      <button class="btn ghost" onclick="goBack()">← Back</button>
+      <h2>All Courses</h2>
+      <div class="search-bar">
+        <input id="search" type="text" placeholder="Search by course title..." autocomplete="off" oninput="debouncedCourseRender()" />
+        <select id="filter" onchange="renderCourses()">
+          <option value="">All Categories</option>
+          <option value="Web Dev">Web Dev</option>
+          <option value="Data Science">Data Science</option>
+          <option value="Design">Design</option>
+          <option value="AI/ML">AI/ML</option>
+          <option value="Mobile Apps">Mobile Apps</option>
+        </select>
+      </div>
+      <div id="courses-grid" class="grid grid-3"></div>
+    </section>
+
+    <!-- COURSE DETAIL -->
+    <section id="course-page" class="hidden">
+      <button class="btn ghost" onclick="goBack()">← Back</button>
+      <div id="course-detail"></div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard-page" class="hidden">
+      <button class="btn ghost" onclick="goBack()">← Back</button>
+      <h2>Your Dashboard</h2>
+      <div id="dashboard-grid"></div>
+      <button class="btn ghost" onclick="clearProgress()">Clear Progress</button>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 All Rights Reserved
+  </footer>
+
+  <script>
+    // Use same course logic as before
+    const COURSES=[
+      {id:"react",title:"React Fundamentals",category:"Web Dev",thumb:"https://i.ytimg.com/vi/bMknfKXIFA8/maxresdefault.jpg",trailer:"https://www.youtube.com/embed/bMknfKXIFA8",syllabus:[{id:"1",title:"Intro to React"},{id:"2",title:"JSX"},{id:"3",title:"Hooks"}]},
+      {id:"node",title:"Node.js Basics",category:"Web Dev",thumb:"https://i.ytimg.com/vi/TlB_eWDSMt4/maxresdefault.jpg",trailer:"https://www.youtube.com/embed/TlB_eWDSMt4",syllabus:[{id:"1",title:"Setup"},{id:"2",title:"Express"},{id:"3",title:"APIs"}]},
+      {id:"htmlcss",title:"HTML & CSS Crash",category:"Web Dev",thumb:"https://i.ytimg.com/vi/mU6anWqZJcc/maxresdefault.jpg",trailer:"https://www.youtube.com/embed/mU6anWqZJcc",syllabus:[{id:"1",title:"HTML Basics"},{id:"2",title:"CSS Basics"}]},
+      {id:"python",title:"Python for Data Science",category:"Data Science",thumb:"https://i.ytimg.com/vi/rfscVS0vtbw/maxresdefault.jpg",trailer:"https://www.youtube.com/embed/rfscVS0vtbw",syllabus:[{id:"1",title:"Intro to Python"},{id:"2",title:"NumPy"},{id:"3",title:"Pandas"}]},
+      {id:"ml",title:"Machine Learning Intro",category:"AI/ML",thumb:"https://i.ytimg.com/vi/GwIo3gDZCVQ/maxresdefault.jpg",trailer:"https://www.youtube.com/embed/GwIo3gDZCVQ",syllabus:[{id:"1",title:"Linear Regression"},{id:"2",title:"Classification"},{id:"3",title:"Clustering"}]},
+      {id:"dl",title:"Deep Learning Crash",category:"AI/ML",thumb:"https://i.ytimg.com/vi/aircAruvnKk/maxresdefault.jpg",trailer:"https://www.youtube.com/embed/aircAruvnKk",syllabus:[{id:"1",title:"Neural Nets"},{id:"2",title:"CNNs"},{id:"3",title:"RNNs"}]},
+      {id:"figma",title:"Figma for Beginners",category:"Design",thumb:"https://i.ytimg.com/vi/jwCmIBJ8Jtc/maxresdefault.jpg",trailer:"https://www.youtube.com/embed/jwCmIBJ8Jtc",syllabus:[{id:"1",title:"Intro to Figma"},{id:"2",title:"Wireframes"},{id:"3",title:"Prototyping"}]},
+      {id:"ux",title:"UX Principles",category:"Design",thumb:"https://i.ytimg.com/vi/Ovj4hFxko7c/maxresdefault.jpg",trailer:"https://www.youtube.com/embed/Ovj4hFxko7c",syllabus:[{id:"1",title:"User Research"},{id:"2",title:"Usability"},{id:"3",title:"Accessibility"}]},
+      {id:"flutter",title:"Flutter Crash Course",category:"Mobile Apps",thumb:"https://i.ytimg.com/vi/x0uinJvhNxI/maxresdefault.jpg",trailer:"https://www.youtube.com/embed/x0uinJvhNxI",syllabus:[{id:"1",title:"Widgets"},{id:"2",title:"State"},{id:"3",title:"Navigation"}]},
+      {id:"android",title:"Android Development",category:"Mobile Apps",thumb:"https://i.ytimg.com/vi/fis26HvvDII/maxresdefault.jpg",trailer:"https://www.youtube.com/embed/fis26HvvDII",syllabus:[{id:"1",title:"Java Basics"},{id:"2",title:"Activities"},{id:"3",title:"Intents"}]},
+      {id:"ios",title:"iOS Development",category:"Mobile Apps",thumb:"https://i.ytimg.com/vi/09TeUXjzpKs/maxresdefault.jpg",trailer:"https://www.youtube.com/embed/09TeUXjzpKs",syllabus:[{id:"1",title:"SwiftUI"},{id:"2",title:"Layouts"},{id:"3",title:"Networking"}]},
+      {id:"stats",title:"Statistics Basics",category:"Data Science",thumb:"https://i.ytimg.com/vi/xxpc-HPKN28/maxresdefault.jpg",trailer:"https://www.youtube.com/embed/xxpc-HPKN28",syllabus:[{id:"1",title:"Mean & Median"},{id:"2",title:"Probability"},{id:"3",title:"Distributions"}]},
+      {id:"sql",title:"SQL & Databases",category:"Data Science",thumb:"https://i.ytimg.com/vi/HXV3zeQKqGY/maxresdefault.jpg",trailer:"https://www.youtube.com/embed/HXV3zeQKqGY",syllabus:[{id:"1",title:"Table Operations"},{id:"2",title:"Joins"},{id:"3",title:"Aggregation"}]},
+
+
+{id:"js",title:"JavaScript Programming Fundamentals",category:"Programming",thumb:"https://i.ytimg.com/vi/hdI2bqOjy3c/maxresdefault.jpg",trailer:"https://www.youtube.com/embed/hdI2bqOjy3c",syllabus:[{id:"1",title:"Variables & Data Types"},{id:"2",title:"Functions"},{id:"3",title:"Control Flow"}]},
+        ];
+
+    const STORAGE_KEY="elearn_progress";
+    let historyStack=["home"];
+
+    function loadProgress(){return JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}")}
+    function saveProgress(p){localStorage.setItem(STORAGE_KEY,JSON.stringify(p))}
+    function clearProgress(){
+      localStorage.removeItem(STORAGE_KEY);
+      renderDashboard();
+    }
+    function courseProgress(c){
+      let pr=loadProgress();
+      if(!pr[c.id]||!pr[c.id].started) return null;
+      let done=0;
+      for(let s of c.syllabus){if(pr[c.id]?.[s.id])done++}
+      return Math.round(done/c.syllabus.length*100)
+    }
+    function setNavActive(id) {
+      ["nav-home","nav-courses","nav-dashboard"].forEach(navId => {
+        document.getElementById(navId).classList.remove("active");
+      });
+      document.getElementById("nav-"+id).classList.add("active");
+    }
+    function navigate(id){
+      document.querySelectorAll("main>section").forEach(s=>s.classList.add("hidden"));
+      document.getElementById(id+"-page").classList.remove("hidden");
+      setNavActive(id);
+      historyStack.push(id);
+      if(id==="courses") renderCourses();
+      if(id==="dashboard") renderDashboard();
+    }
+    function goBack(){
+      if(historyStack.length>1){historyStack.pop();let prev=historyStack.pop();navigate(prev)}
+    }
+    let debounceTimeout;
+    function debouncedCourseRender() {
+      clearTimeout(debounceTimeout);
+      debounceTimeout = setTimeout(renderCourses, 250);
+    }
+    function renderCourses(){
+      let cont=document.getElementById("courses-grid");cont.innerHTML="";
+      let f=document.getElementById("filter").value.trim();
+      let s=document.getElementById("search").value.trim().toLowerCase();
+      let filtered=COURSES.filter(c=>{
+        let catOk=!f||c.category===f;
+        let searchOk=!s||c.title.toLowerCase().includes(s);
+        return catOk && searchOk;
+      });
+      if(!filtered.length){
+        cont.innerHTML="<p>No matching courses found.</p>";return;
+      }
+      filtered.forEach(c=>cont.append(courseCard(c,true)));
+    }
+    function renderDashboard(){
+      let cont=document.getElementById("dashboard-grid");cont.innerHTML="";
+      COURSES.forEach(c=>{
+        let p=courseProgress(c);
+        if(p!==null){
+          let card=document.createElement("div");card.className="card dashboard-card";
+          card.innerHTML=`
+          <div style="display:flex;align-items:center;gap:10px">
+            <img src="${c.thumb}" style="width:80px;height:60px;object-fit:cover;border-radius:8px;background:#e3f2fd;">
+            <div>
+              <div class="title">${c.title}</div>
+              <div class="small">${c.category} • <span class="dashboard-link" onclick="openCourse('${c.id}')">View details</span></div>
+            </div>
+            <div style="margin-left:auto" class="small">${p}%</div>
+          </div>
+          <div class="progress-outer"><div class="progress-inner" style="width:${p}%"></div></div>`;
+          cont.append(card);
+        }
+      });
+      if(!cont.innerHTML) cont.innerHTML="<p>No courses started yet.</p>";
+    }
+    function courseCard(c,viewBtn){
+      let card=document.createElement("div");card.className="card";
+      let p=courseProgress(c);
+      card.innerHTML=`<img class="course-thumb" src="${c.thumb}">
+        <div class="title">${c.title}</div>
+        <div class="small">${c.category}</div>
+        ${p!==null?`<div class="progress-outer"><div class="progress-inner" style="width:${p}%"></div></div>`:""}`;
+      let btn=document.createElement("a");btn.href="#";btn.className="btn primary";
+      btn.innerText=viewBtn?"View":"Start";
+      btn.onclick=(e)=>{e.preventDefault();openCourse(c.id);};
+      card.append(btn);return card;
+    }
+    function openCourse(id){
+      let c=COURSES.find(x=>x.id===id);
+      let wrap=document.getElementById("course-detail");
+      wrap.innerHTML="";
+      let trailers = Array.isArray(c.trailer) ? c.trailer : [c.trailer];
+      let videoRow = document.createElement("div");
+      videoRow.className = "video-row";
+      trailers.forEach(trailer => {
+        let box = document.createElement("div");
+        box.className = "video-box";
+        box.innerHTML = `<iframe src="${trailer}?enablejsapi=1" allowfullscreen></iframe>`;
+        videoRow.appendChild(box);
+      });
+      wrap.appendChild(videoRow);
+
+      wrap.innerHTML += `<h2>${c.title}</h2><p class="small">${c.category}</p><h3>Lessons</h3>`;
+      let progress=loadProgress();progress[c.id]=progress[c.id]||{};
+      progress[c.id].started=true; saveProgress(progress);
+      c.syllabus.forEach(s=>{
+        let done=progress[c.id][s.id];let div=document.createElement("div");div.className="lesson";
+        let box=document.createElement("div");box.className="checkbox"+(done?" done":"");box.textContent=done?"✓":"";box.onclick=()=>{
+          progress[c.id][s.id]=!progress[c.id][s.id];saveProgress(progress);openCourse(c.id);
+        };
+        div.append(box);div.append(document.createTextNode(s.title));wrap.append(div);
+      });
+      navigate("course");
+    }
+    navigate("home");
+  </script>
+</body>
+</html>
